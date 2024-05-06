@@ -1,15 +1,16 @@
 namespace TurboCollections.Test;
 
-public class Tests
+public static class TurboMathsTests
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
-
+    
     [Test]
-    public void Test1()
+    public static void SayHelloExists()
     {
+        TurboMaths.SayHello();
+        
         Assert.Pass();
     }
+    
+    
+    
 }
