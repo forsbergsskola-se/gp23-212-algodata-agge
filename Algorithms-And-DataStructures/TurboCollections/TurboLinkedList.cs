@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace TurboCollections;
 
@@ -57,7 +58,7 @@ public class TurboLinkedList<T> : IEnumerable<T>
 
     public void RemoveAt(int index)
     {
-        var current = first;
+        var current = first!;
         int currentIndex = 0;
         
         if(Count < index)
@@ -74,10 +75,15 @@ public class TurboLinkedList<T> : IEnumerable<T>
             currentIndex++;
             
             if (currentIndex == index)
-                current.Next = current.Next.Next;
+                current.Next = current.Next!.Next;
             
             current = current.Next;
         }
+    }
+
+    public void Clear()
+    {
+        first = null;
     }
 
     public int Count
@@ -95,14 +101,15 @@ public class TurboLinkedList<T> : IEnumerable<T>
 
             return count;
         }
-    }    
-    // Remove
-    // Remove at index
-    // Clear/delete
-    // Count
-    // Count a value
-    // Peek
-    // Peek at index
+    }
+
+    public T Peek()
+    {
+        if (first == null)
+            throw new EmptyListException();
+        
+        return first!.Value;
+    }
     
     public IEnumerator<T> GetEnumerator()
     {
@@ -119,4 +126,9 @@ public class TurboLinkedList<T> : IEnumerable<T>
     {
         return GetEnumerator();
     }
+}
+
+public class EmptyListException : Exception
+{
+    public override string Message => "Error: List is empty";
 }
