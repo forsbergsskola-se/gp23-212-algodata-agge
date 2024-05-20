@@ -2,9 +2,12 @@ namespace TurboCollections;
 
 public class TurboBinarySearchTree<T> where T:IComparable<T>
 {
-    class Node
+
+    public Node root;
+
+    public class Node
     {
-        private T value;
+        public T value;
         private Node left;
         private Node right;
         
@@ -13,22 +16,51 @@ public class TurboBinarySearchTree<T> where T:IComparable<T>
             this.value = value;
         }
 
+        public void InsertInto(ref Node child, T val)
+        {
+            if (child == null)
+                child = new Node(val);
+            else
+                child.Insert(val);
+        }
+        
         public void Insert(T val)
         {
-            Node sideNode = val.CompareTo(left.value) < 1? left : right;
+            if (val.CompareTo(value) < 1)
+                InsertInto(ref left, val);
+            else
+                InsertInto(ref right, val);
+            
+        }
 
-            if (sideNode == null)
-                sideNode = new Node(val);
+        public bool CanFindValue(T val)
+        {
+            if (value.Equals(val))
+                return true;
+            
+            if (val.CompareTo(value) < 1)
+                return left.CanFindValue(val);
             else
             {
-                sideNode.left.Insert(val);
+                return right.CanFindValue(val);
             }
         }
         
     }
-    
-    
-    
+
+    public void Insert(T val)
+    {
+        if (root != null)
+            root.Insert(val);
+        else
+            root = new Node(val);
+    }
+
+
+    public bool Search(T val)
+    {
+        return root.CanFindValue(val);
+    }
     
 
 }
