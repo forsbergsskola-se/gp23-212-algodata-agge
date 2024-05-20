@@ -4,29 +4,30 @@ public class TurboBinarySearchTree<T> where T:IComparable<T>
 {
     class Node
     {
-        public int value;
+        private T value;
         private Node left;
         private Node right;
         
-        public Node(int value)
+        public Node(T value)
         {
             this.value = value;
         }
 
-        public bool HasEmptyChild()
+        public void Insert(T val)
         {
-            return (left == null || right == null);
-        }
+            Node sideNode = val.CompareTo(left.value) < 1? left : right;
 
-        public void AddChild(int val)
-        {
-            if (left != null && left.value < val)
-                right.value = left.value;
-            
-            left = new Node(val);
+            if (sideNode == null)
+                sideNode = new Node(val);
+            else
+            {
+                sideNode.left.Insert(val);
+            }
         }
         
     }
+    
+    
     
     
 
